@@ -1,0 +1,2 @@
+keyboard==0.13.5
+discord==1.7.3
