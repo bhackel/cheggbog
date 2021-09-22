@@ -43,8 +43,15 @@ www.chegg.com##.header-nav.no-subnav.no-nav.chg-body > div > oc-component
 www.chegg.com##.sidebar-container
 www.chegg.com##.right-sidebar
 www.chegg.com##.csrec-cards.csrec-qna
+
+! 2021-09-15 https://www.chegg.com
 www.chegg.com###playerpages-right-content
 www.chegg.com##.playerpages-right-content.col-3
+
+! 2021-09-23 https://www.chegg.com
+www.chegg.com###\35 451367596
+www.chegg.com##.csp-content
+www.chegg.com##.app-promotion.text-me-app-container
 ```
 
 Install Tampermonkey and add the following as a script to improve formatting
