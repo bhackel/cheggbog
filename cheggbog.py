@@ -33,7 +33,7 @@ async def on_message(message):
             keyboard.press_and_release('alt+shift+p')
             # Textbook pages take much longer to capture
             if "/homework-help/questions-and-answers/" in url:
-                time.sleep(5)
+                time.sleep(7)
             else:
                 time.sleep(10)
 
