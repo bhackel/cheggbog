@@ -74,7 +74,7 @@ Install Tampermonkey and add the following as a script to improve formatting
     document.querySelector("div.chg-container.center-content").style.padding = "0";
     document.querySelector("div.chg-container.center-content").style.margin = "0";
     document.querySelector("div.main-content.question-page").style.width = "calc(100% - 13px)";
-    document.getElementById("popup-4").style.paddingBottom = "0";
+    try { document.getElementById("popup-4").style.paddingBottom = "0"; } catch { }
     document.querySelector("div.chg-footer").style.display = "none";
     document.querySelector('div.txt-2-small.global-breadcrumb').style.display = "none";
     document.querySelector('div.parent-container.question-headline').style.paddingTop = "0";
@@ -82,6 +82,12 @@ Install Tampermonkey and add the following as a script to improve formatting
     document.querySelector('div.main-content.question-page').style.width = "100%";
     document.querySelector('div.chg-content.HomeworkhelpQuestion').style.padding = "0";
     document.querySelector('div.chg-content.HomeworkhelpQuestion').style.minWidth = "unset";
+
+    // Make thumbs up/down more visible
+    document.querySelectorAll('.review-count').forEach(e => {
+        e.style.fontSize = "50px";
+    });
+
 })();
 ```
 
