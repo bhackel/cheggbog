@@ -6,6 +6,7 @@ import keyboard
 
 
 client = discord.Client()
+running = False
 
 
 # Log when bot has come online
@@ -18,7 +19,14 @@ async def on_ready():
 async def on_message(message):
     # Search for Chegg links in messages
     if "https://www.chegg.com/homework-help/" in message.content:
+        # Check if bot is already chegging
+        global running
+        if running:
+            await message.reply("Please resend the link to get a response")
+            return
+
         await message.add_reaction('\U0001F504')
+        running = True
         # Get all Chegg homework URLs in message
         url_list = re.findall(r'(https://(?:www.)?chegg.com/homework-help/\S+)', message.content)
         
@@ -51,6 +59,7 @@ async def on_message(message):
             # Delete the image
             os.remove(file_loc)
         await message.add_reaction('\U00002705')
+        running = False
 
 
 # Run the bot
