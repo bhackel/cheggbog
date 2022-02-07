@@ -1,6 +1,9 @@
 # cheggbog
+
+*Note that usage of this bot breaks Discord ToS and can get you banned if reported* 
+
 Fully automated Chegg Discord bot for "homework help".
-**Working Sept 15, 2021**
+**Working Feb 2, 2022**
 
 ## Overview
 Recently, Chegg has made it extremely difficult to automate retrieval of content from their website. They started using a service called **PerimeterX** that detects the usage of automation tools like Selenium when accessing the website.
