@@ -8,7 +8,7 @@ Fully automated Chegg Discord bot for "homework help".
 ## Overview
 Recently, Chegg has made it extremely difficult to automate retrieval of content from their website. They started using a service called **PerimeterX** that detects the usage of automation tools like Selenium when accessing the website.
 
-I still wanted to automate the process, so I took it to the extreme with this project. It uses a virtual machine and fake keystrokes to simulate a real user on the website.
+This program demonstrates a way to circumvent these restrictions. It uses a virtual machine and fake keystrokes to simulate a real user on the website.
 
 ## Requirements
 - Paid Chegg account (will need to sign in)
