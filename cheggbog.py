@@ -35,22 +35,31 @@ async def on_message(message):
         for url in url_list:
             # Open Chegg link
             webbrowser.open(url)
-            time.sleep(5)
+            time.sleep(8)
 
-            # Take a screenshot using the extension
+            # Trigger the screenshot extension
             keyboard.press_and_release('alt+shift+p')
-            # Textbook pages take much longer to capture
-            if "/homework-help/questions-and-answers/" in url:
-                time.sleep(7)
+
+            # Get the file of the image by finding the newest one
+            path = "C:/Users/[YOUR USERNAME]/Downloads/screenshots/*.jpg"
+            
+            # Continually check folder for a new image (assumes empty before)
+            for i in range(20):
+                print(f"Checking files {i}")
+                files = glob.glob(path, recursive=True)
+                if len(files) > 0:
+                    file_loc = max(files, key=os.path.getmtime)
+                    break
+
+                time.sleep(1)
             else:
-                time.sleep(10)
+                print("Failed to find the image. Try checking the path.")
+                await message.add_reaction('\U0000274C')
+                running = False
+                return
 
             # Close the Chegg window
             keyboard.press_and_release('ctrl+w')
-
-            # Get the file of the image by finding the newest one
-            path = "C:/Users/[YOUR USERNAME]/Downloads/screenshots/*"
-            file_loc = max(glob.glob(path, recursive=True), key=os.path.getmtime)
 
             # Send the image
             file = [discord.File(file_loc)]
