@@ -34,38 +34,19 @@ Install the **GoFullPage** extension from the Chrome web store. Right click the 
 - Check Auto-download files
 - If it asks for permissions, make sure to allow it
 
-### Optional (but recommended) tools to improve image output
+### Optional (but *highly recommended*) tools to improve image output
 <details>
   <summary>See below</summary>
-  
-Install uBlock Origin and add the following as a filter to trim useless page information
-```
-! 2021-09-10 https://www.chegg.com
-www.chegg.com##.loggedIn.subtype-.type-study.kit-kat-search.force-desktop.chgg-hdr
-www.chegg.com##.header-nav.no-subnav.no-nav.chg-body > div > oc-component
-www.chegg.com##.sidebar-container
-www.chegg.com##.right-sidebar
-www.chegg.com##.csrec-cards.csrec-qna
-
-! 2021-09-15 https://www.chegg.com
-www.chegg.com###playerpages-right-content
-www.chegg.com##.playerpages-right-content.col-3
-
-! 2021-09-23 https://www.chegg.com
-www.chegg.com###\35 451367596
-www.chegg.com##.csp-content
-www.chegg.com##.app-promotion.text-me-app-container
-```
 
 Install Tampermonkey and add the following as a script to improve formatting
 ```javascript
 // ==UserScript==
 // @name         Clean Chegg Website
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      2.0
 // @description  try to take over the world!
 // @author       You
-// @match        https://www.chegg.com/homework-help/questions-and-answers/*
+// @match        https://www.chegg.com/homework-help/*
 // @icon         https://www.google.com/s2/favicons?domain=chegg.com
 // @grant        none
 // ==/UserScript==
@@ -73,23 +54,48 @@ Install Tampermonkey and add the following as a script to improve formatting
 (function() {
     'use strict';
 
-    document.querySelector("div.chg-container.center-content").style.maxWidth = "calc(100% - 13px)";
-    document.querySelector("div.chg-container.center-content").style.padding = "0";
-    document.querySelector("div.chg-container.center-content").style.margin = "0";
-    document.querySelector("div.main-content.question-page").style.width = "calc(100% - 13px)";
-    try { document.getElementById("popup-4").style.paddingBottom = "0"; } catch { }
-    document.querySelector("div.chg-footer").style.display = "none";
-    document.querySelector('div.txt-2-small.global-breadcrumb').style.display = "none";
-    document.querySelector('div.parent-container.question-headline').style.paddingTop = "0";
-    document.querySelector('div.parent-container.question-headline').style.paddingBottom = "0";
-    document.querySelector('div.main-content.question-page').style.width = "100%";
-    document.querySelector('div.chg-content.HomeworkhelpQuestion').style.padding = "0";
-    document.querySelector('div.chg-content.HomeworkhelpQuestion').style.minWidth = "unset";
+    // This will likely break due to the randomized class names
 
-    // Make thumbs up/down more visible
-    document.querySelectorAll('.review-count').forEach(e => {
-        e.style.fontSize = "50px";
-    });
+    setTimeout(function(){
+        let url = window.location.href.split('?')[0];
+        // Case for Q&A pages
+        if (url.includes("/homework-help/questions-and-answers/")) {
+            // Main page formatting
+            document.querySelector("#__next > div > div.styled__LayoutContainer-wgvh7v-0.lmWpGP > div").style.margin = 0; // Removes auto centering of content
+            document.querySelector("#chegg-main-content > form").remove(); // Removes the search box at the top of the page
+            document.querySelector("#__next > div > div.styled__LayoutContainer-wgvh7v-0.lmWpGP > div > header").remove(); // Removes the title bar at the top of the page
+            document.querySelector("#chegg-main-content > div > div > div.lmxvvx-1.cYciRD").remove(); // Removes the right sidebar
+            document.querySelector("#__next > div > div.fysmtz-0.dPWGDN").remove() // Removes the footer
+            document.querySelector("#chegg-main-content > div > div > div > div > div:nth-child(3)").remove(); // Removes "Up next in your courses" above footer
+            document.querySelector("#__next > div > div > nav").remove() // Removes side navigation bar
+
+            // Details
+            document.querySelector("#chegg-main-content > div > div > div > div > div:nth-child(1) > section > div > div > div:nth-child(2) > div").style.maxWidth = "none"; // Allows question text to be infinitely wide
+            document.querySelector("#chegg-main-content").style.padding = "5px"; // Shrinks main content padding
+            document.querySelector("#chegg-main-content > div > div").style.display = "inline" // Makes content fill entire width of the page (up to a max SET BELOW)
+            document.querySelector("#chegg-main-content").style.width = "960px"; // Sets the width of the main content, change this according to the width of the window
+
+            // Makes thumbs up/down more visible
+            document.querySelectorAll('.ljdUEF').forEach(e => {
+                e.style.fontSize = "75px";
+                e.style.color = "red"
+            });
+        }
+
+        // All other (textbook answers)
+        else {
+            document.querySelector(".chg-footer").remove() // Removes footer
+            document.querySelector(".playerpages-right-content").remove() // Removes right sidebar
+            document.querySelector("div[role='navigation']").remove() // Remove search and title bar
+            document.querySelector(".chg-container").style.marginLeft = "0"; // Removes auto centering of content
+            document.querySelector(".chg-container").style.paddingTop = "0"; // Removes padding on top of content
+            document.querySelector(".chg-content").style.paddingBottom = "0"; // Removes padding below content
+            document.querySelector(".chg-content").style.margin = "5px"; // Shrinks margins between edge and page
+            document.querySelector(".chg-container").style.minWidth = "unset"; // Removes horizontal scrollbar by removing minimum width restriction
+            document.querySelector(".csp-content").remove(); // Removes more footer content
+        }
+
+    }, 3000) // Increase this delay for slower internet connections and page loading times
 
 })();
 ```
