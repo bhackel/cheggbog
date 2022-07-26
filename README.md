@@ -93,6 +93,12 @@ Install Tampermonkey and add the following as a script to improve formatting
             document.querySelector(".chg-content").style.margin = "5px"; // Shrinks margins between edge and page
             document.querySelector(".chg-container").style.minWidth = "unset"; // Removes horizontal scrollbar by removing minimum width restriction
             document.querySelector(".csp-content").remove(); // Removes more footer content
+            document.querySelector("oc-component[data-name='opencomponent-relatedcontent']").remove() // Removes related content section
+            document.querySelector(".main").style.paddingBottom = "unset"; // Shrinks padding at bottom
+            document.querySelector("div[id='solution-player-sdk']").style.marginBottom = "unset"; // Shrinks margin at bottom
+            document.querySelector(".chg-container").style.minHeight = "unset"; // Shrinks total page height
+            document.querySelector(".global-breadcrumb").style.width = "775px" // Forces breadcrumb text to certain width
+
         }
 
     }, 3000) // Increase this delay for slower internet connections and page loading times
