@@ -35,7 +35,7 @@ async def on_message(message):
         for url in url_list:
             # Open Chegg link
             webbrowser.open(url)
-            time.sleep(8)
+            await asyncio.sleep(8)
 
             # Trigger the screenshot extension
             keyboard.press_and_release('alt+shift+p')
@@ -51,7 +51,7 @@ async def on_message(message):
                     file_loc = max(files, key=os.path.getmtime)
                     break
 
-                time.sleep(1)
+                await asyncio.sleep(1)
             else:
                 print("Failed to find the image. Try checking the path.")
                 await message.add_reaction('\U0000274C')
