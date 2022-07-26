@@ -3,7 +3,7 @@
 *Note that usage of this bot breaks Discord ToS and can get you banned if reported* 
 
 Fully automated Chegg Discord bot for "homework help".
-**Working Feb 2, 2022**
+**Working Jul 25, 2022**
 
 ## Overview
 Recently, Chegg has made it extremely difficult to automate retrieval of content from their website. They started using a service called **PerimeterX** that detects the usage of automation tools like Selenium when accessing the website.
@@ -12,29 +12,29 @@ This program demonstrates a way to circumvent these restrictions. It uses a virt
 
 ## Requirements
 - Paid Chegg account (will need to sign in)
-- A decent computer to run the VM
+- A decent computer/server to run the VM
 - Basic Python skills
 - A Discord bot
 
 ## Step 0: Obtaining the bot and creating the VM
-Look up how to create a Discord bot, then add it to any server. It needs the permissions to read messages and add reactions.
+Look up how to create a Discord bot, then add it to any server. The permissions required are Read and Send messages, Attach files, and Add reactions.
 
-For the virtual machine, I am using **VMware Workstation 16 Player**. It's free and works well. Once it is installed, grab the **Media Creation Tool** from Microsoft's website, and use it to create a .iso of Windows. Create a new virtual machine using that .iso file, and go through the setup process.
+Download the free **VMware Workstation 16 Player**. Grab the **Media Creation Tool** from Microsoft's website to create a .iso of Windows. Create a new virtual machine using that .iso file and go through the setup process.
 
-For the VM, click on "I don't have a product key". When it asks you to sign in with a Microsoft account, you can disconnect from the internet, which allows for the creation of a local account and having an empty password. Then, you'll want to install VMware Tools, Chrome, and Python (tested on version 3.9.7). Make sure to check the box to add Python to PATH when installing.
+In setup, click on "I don't have a product key". When prompted to sign in with a Microsoft account, disconnect from the internet to create a local account with no password. Install VMware Tools, Chrome, and Python (tested 3.9.7). Make sure to add Python to PATH when installing.
 
 ## Step 1: Setting up Chrome
-The way the bot works is that it opens the URL in Chrome, takes a screenshot of it using the **GoFullPage** extension by pressing a shortcut for it, then sends that image in the channel where the Chegg link was sent. The tab is also closed and the image is deleted once it is done.
+The bot opens the URL in Chrome, takes a screenshot using the **GoFullPage** shortcut, then sends the image in the same channel as the link. Afterwards, it closes the tab and deletes the image.
 
-Go to the Chegg website and sign in. Make sure that the device is registered to your account by going to any homework-help link.
+Sign in to Chegg. Ensure the device is registered to the account by opening any homework-help link.
 
 Install the **GoFullPage** extension from the Chrome web store. Right click the icon, go to settings:
 - Set Image format to jpg
 - Set directory to screenshots
 - Check Auto-download files
-- If it asks for permissions, make sure to allow it
+- Allow any permissions requested
 
-### Optional (but *highly recommended*) tools to improve image output
+### Optional (but *highly recommended*) ways to improve speed and quality
 <details>
   <summary>See below</summary>
 
@@ -102,42 +102,40 @@ Install Tampermonkey and add the following as a script to improve formatting
 
 Change the VM resolution to something like 1600x1200 in Display Settings in Windows
 
-In Chrome, set a default resolution by right clicking on the empty space next to the tabs and clicking Size (unsure if this works).
-
 </details>
 
 ## Step 2: Setting up the Discord bot
-Download this repository as a zip and extract it to anywhere. Add your bot's private key to key.txt. 
-Open cheggbog.py and edit the variable called "path" with your username.
+Download this repository as a zip and extract it anywhere. Add your bot's private key to key.txt. 
+Open cheggbog.py and edit the "path" variable with your Windows username.
 
-Open a command prompt in the folder and install the required libraries using the following
+Open a command prompt in the folder and install the required libraries
 ```
 python -m pip install -r requirements.txt
 ```
 
-Then you can run the bot by typing the following command
+Finally, run the bot
 ```
 python cheggbog.py
 ```
-**Make sure to have at least 1 tab open while the bot is running to improve loading times**
+**Keep at least 1 tab open while the bot is running to improve loading times**
 
 ## Step 3: Testing and final parts
-When the bot is running, it is looking for both DMs and messages sent in any channel it can see. Send any Chegg homework help link and make sure not to touch the virtual machine. The intended behavior is the following:
+When running, the bot looks for links in any channel it can see, including DMs. Send any Chegg link and do not touch the virtual machine. The intended behavior is the following:
 - Link sent, bot reacts with an emoji to show processing
 - Bot opens link in Chrome, waits for a bit, then triggers the full page screenshot tool
-- After a set amount of time, the bot sends the image in the same channel as the link, closes the Chegg window, and deletes the image file
-- Finally, reacts to the original message to show that it is complete
+- Once complete, bot replies to the link with image, closes the Chegg window, and deletes the image file
+- Then, bot reacts to the link to indicate completion
 
 ### (Optional) Adding the bot to startup
 In the cheggbog folder, create a new file called run.bat with the following contents
 ```
 python cheggbog.py
 ```
-Press Win+R and type shell:startup to access the startup programs folder. Create a shortcut to the run.bat file and drop it in this folder, along with a shortcut to Chrome.
+Press Win+R and type shell:startup to access the startup programs folder. Create a shortcut to the run.bat file and drop it here, along with a shortcut to Chrome.
 
 ### (Optional) Adding the VM to startup
-On the host computer, go to the location of the VM (default C:\Users\[User]\Documents\Virtual Machines\[Your VM]).
-Create a .bat file with the following contents (substitute things in brackets)
+On the host, navigate to the VM (default C:\Users\[User]\Documents\Virtual Machines\[Your VM]).
+Create a .bat file with the following contents (substitute brackets)
 ```
 "C:\Program Files (x86)\VMware\VMware Player\vmrun" -T player start "C:\Users\[User]\Documents\Virtual Machines\[Your VM]\[Your VM].vmx"
 ```
