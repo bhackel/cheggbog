@@ -54,18 +54,16 @@ Install Tampermonkey and add the following as a script to improve formatting
 (function() {
     'use strict';
 
-    // This will likely break due to the randomized class names
-
     setTimeout(function(){
         let url = window.location.href.split('?')[0];
         // Case for Q&A pages
         if (url.includes("/homework-help/questions-and-answers/")) {
             // Main page formatting
-            document.querySelector("#__next > div > div.styled__LayoutContainer-wgvh7v-0.lmWpGP > div").style.margin = 0; // Removes auto centering of content
+            document.querySelector("#__next > div > div > div").style.margin = 0; // Removes auto centering of content
             document.querySelector("#chegg-main-content > form").remove(); // Removes the search box at the top of the page
-            document.querySelector("#__next > div > div.styled__LayoutContainer-wgvh7v-0.lmWpGP > div > header").remove(); // Removes the title bar at the top of the page
-            document.querySelector("#chegg-main-content > div > div > div.lmxvvx-1.cYciRD").remove(); // Removes the right sidebar
-            document.querySelector("#__next > div > div.fysmtz-0.dPWGDN").remove() // Removes the footer
+            document.querySelector("#__next > div > div > div > header").remove(); // Removes the title bar at the top of the page
+            document.querySelector("#chegg-main-content > div > div > div:nth-child(2)").remove(); // Removes the right sidebar
+            document.querySelector("#__next > div > div:nth-child(2)").remove() // Removes the footer
             document.querySelector("#chegg-main-content > div > div > div > div > div:nth-child(3)").remove(); // Removes "Up next in your courses" above footer
             document.querySelector("#__next > div > div > nav").remove() // Removes side navigation bar
 
@@ -76,10 +74,10 @@ Install Tampermonkey and add the following as a script to improve formatting
             document.querySelector("#chegg-main-content").style.width = "960px"; // Sets the width of the main content, change this according to the width of the window
 
             // Makes thumbs up/down more visible
-            document.querySelectorAll('.ljdUEF').forEach(e => {
-                e.style.fontSize = "75px";
-                e.style.color = "red"
-            });
+            let e = document.querySelector("#chegg-main-content > div > div > div > div > div:nth-child(2) > section > div:nth-child(3) > div > div > div > div > div:nth-child(3) > div");
+            e.style.fontSize = "75px";
+            e.querySelector("div > button:nth-child(1) > div").style.color = "red";
+            e.querySelector("div > button:nth-child(2) > div").style.color = "red";
         }
 
         // All other (textbook answers)
