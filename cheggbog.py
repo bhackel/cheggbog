@@ -5,7 +5,7 @@ import webbrowser
 import keyboard
 
 
-client = discord.Client()
+client = discord.Client(intents=discord.Intents.default())
 running = False
 
 
