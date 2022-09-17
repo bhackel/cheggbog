@@ -43,7 +43,7 @@ Install Tampermonkey and add the following as a script to improve formatting
 // ==UserScript==
 // @name         Clean Chegg Website
 // @namespace    http://tampermonkey.net/
-// @version      2.0
+// @version      2.1
 // @description  try to take over the world!
 // @author       You
 // @match        https://www.chegg.com/homework-help/*
@@ -75,9 +75,17 @@ Install Tampermonkey and add the following as a script to improve formatting
 
             // Makes thumbs up/down more visible
             let e = document.querySelector("#chegg-main-content > div > div > div > div > div:nth-child(2) > section > div:nth-child(3) > div > div > div > div > div:nth-child(3) > div");
-            e.style.fontSize = "75px";
-            e.querySelector("div > button:nth-child(1) > div").style.color = "red";
-            e.querySelector("div > button:nth-child(2) > div").style.color = "red";
+            if (e) {
+                e.style.fontSize = "75px";
+                e.querySelector("div > button:nth-child(1) > div").style.color = "red";
+                e.querySelector("div > button:nth-child(2) > div").style.color = "red";
+            }
+
+            // Click "All Steps" for pages with steps
+            let button = document.querySelector('#chegg-main-content > div > div > div > div > div:nth-child(2) > section > div:nth-child(3) > div > div > div > div > div > div:nth-child(2)');
+            if (button) {
+                button.click();
+            }
         }
 
         // All other (textbook answers)
