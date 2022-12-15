@@ -1,9 +1,13 @@
-import time, os, glob, re
-import discord
 import asyncio
+import glob
+import os
+import re
 import webbrowser
-import keyboard
 
+import discord
+from pynput.keyboard import Key, Controller
+
+keyboard = Controller()
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -21,7 +25,8 @@ async def on_ready():
 @client.event
 async def on_message(message):
     # Search for Chegg links in messages
-    if "https://www.chegg.com/homework-help/" in message.content:
+    url_list = re.findall(r'chegg\.com/homework-help/\S+', message.content)
+    if len(url_list) > 0:
         # Check if bot is already chegging
         global running
         if running:
@@ -30,22 +35,22 @@ async def on_message(message):
 
         await message.add_reaction('\U0001F504')
         running = True
-        # Get all Chegg homework URLs in message
-        url_list = re.findall(r'(https://(?:www.)?chegg.com/homework-help/\S+)', message.content)
-        
+
         # Send images for every url
         print(f' Chegging {url_list}')
         for url in url_list:
             # Open Chegg link
-            webbrowser.open(url)
+            webbrowser.open(f'https://{url}')
             await asyncio.sleep(8)
 
             # Trigger the screenshot extension
-            keyboard.press_and_release('alt+shift+p')
+            with keyboard.pressed(Key.alt), keyboard.pressed(Key.shift):
+                keyboard.press('p')
+                keyboard.release('p')
 
             # Get the file of the image by finding the newest one
             path = "C:/Users/[YOUR USERNAME]/Downloads/screenshots/*.jpg"
-            
+
             # Continually check folder for a new image (assumes empty before)
             for i in range(20):
                 print(f"Checking files {i}")
@@ -62,7 +67,9 @@ async def on_message(message):
                 return
 
             # Close the Chegg window
-            keyboard.press_and_release('ctrl+w')
+            with keyboard.pressed(Key.ctrl):
+                keyboard.press('w')
+                keyboard.release('w')
 
             # Send the image
             file = [discord.File(file_loc)]
@@ -76,5 +83,5 @@ async def on_message(message):
 
 # Run the bot
 with open('key.txt') as f:
-    key = f.read()
+    key = f.read().strip()
 client.run(key)
