@@ -68,9 +68,9 @@ Install Tampermonkey and add the following as a script to improve formatting
 // ==UserScript==
 // @name         Clean Chegg Website
 // @namespace    http://tampermonkey.net/
-// @version      2.2
+// @version      2.3
 // @description  Formats Chegg pages nicely
-// @author       You
+// @author       bhackel
 // @match        https://www.chegg.com/homework-help/*
 // @icon         https://www.google.com/s2/favicons?domain=chegg.com
 // @grant        none
@@ -120,7 +120,7 @@ Install Tampermonkey and add the following as a script to improve formatting
             }, 500)
 
             // Increase size of images when they are small for some reason
-            let ansImgLst = document.querySelector('#chegg-main-content > div > div > div > div > div:nth-child(2) > section > div:nth-child(3) > div > div > div > div > div:nth-child(2)').getElementsByTagName('img')
+            let ansImgLst = Array.from(document.querySelector('#chegg-main-content > div > div > div > div > div:nth-child(2) > section').querySelectorAll('img')).slice(1);
             for (let img of ansImgLst) {
                 if (parseInt(img.style.width, 10) < 600) {
                     img.style.width = '600px'
