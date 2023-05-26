@@ -41,7 +41,7 @@ async def on_message(message):
         for url in url_list:
             # Open Chegg link
             webbrowser.open(f'https://{url}')
-            await asyncio.sleep(8)
+            await asyncio.sleep(12)
 
             # Trigger the screenshot extension
             with keyboard.pressed(Key.alt), keyboard.pressed(Key.shift):
